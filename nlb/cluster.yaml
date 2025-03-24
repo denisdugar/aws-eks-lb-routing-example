@@ -1,0 +1,28 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: my-eks-cluster
+  region: us-east-1
+iam:
+  withOIDC: true
+vpc:
+  id: "vpc-015dfbc43b600e630" # Change to your VPC ID
+  subnets:
+    private:
+      us-east-1a:
+        id: "subnet-0d0449d375c369ec4"  # Change to your Subnet ID
+      us-east-1b:
+        id: "subnet-0b3bd07a405030143"  # Change to your Subnet ID
+nodeGroups:
+  - name: my-ng
+    privateNetworking: true
+    securityGroups:
+      attachIDs:
+        - "sg-0f693d20095a20a5a" # Change to your SG workers id
+      withShared: true
+      withLocal: true
+    subnets:
+      - subnet-0d0449d375c369ec4 # Change to your Subnet ID
+      - subnet-0b3bd07a405030143 # Change to your Subnet ID
+    instanceType: t3.medium
+    desiredCapacity: 3
